@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Thymeleaf + Stripe Demo</title>
+    <link rel="stylesheet" href="/styles.css">
+ </head>
+ <body>
+
+ <div>
+    <span th:if="${username != null}">
+        Welcome, <span th:text="${username}"></span>!
+        <form th:action="@{/logout}" method="post">
+            <button type="submit">Logout</button>
+        </form>
+    </span>
+ </div>
+
+ <h1>Available Products</h1>
+
+ <div class="product-container">
+
+     <div th:each="product : ${products}" class="product-card">
+         <h3 th:text="${product.name}"></h3>
+         <p>Price: $<span th:text="${product.displayPrice}"></span></p>
+
+         <form th:action="@{/product/checkout}" method="POST">
+             <input type="hidden" name="name" th:value="${product.name}">
+             <input type="hidden" name="amount" th:value="${product.priceInCents}">
+             <input type="number" name="quantity" value="1" min="1">
+
+             <button type="submit" class="checkout-button">Checkout</button>
+         </form>
+
+     </div>
+ </div>
+
+</body>
+</html>
+
